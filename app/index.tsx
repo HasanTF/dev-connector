@@ -7,7 +7,7 @@ export default function Index() {
 
   return (
     <View className="flex-1 justify-center items-center bg-white">
-      <TouchableOpacity onPress={() => router.push("/(auth)/index")}>
+      <TouchableOpacity onPress={() => router.push("/(auth)")}>
         <Text>START</Text>
       </TouchableOpacity>
     </View>
