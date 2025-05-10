@@ -95,7 +95,7 @@ export default function SignIn() {
         {/* Dont have an Account */}
         <View className="flex-row gap-2">
           <Text className="text-lg">Don't Have An Account?</Text>
-          <Pressable onPress={() => router.push("/auth/signup")}>
+          <Pressable onPress={() => router.push("/(auth)/signup")}>
             <Text className="text-lg font-extrabold text-blue-500">
               Sign Up
             </Text>
