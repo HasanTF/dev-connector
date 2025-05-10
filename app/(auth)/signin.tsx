@@ -1,10 +1,11 @@
 import AuthHeader from "@/components/authComponents/AuthHeader";
 import UserInput from "@/components/authComponents/UserInput";
+import { signIn } from "@/lib/firebase/auth";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
-import { Pressable, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Pressable, Text, TouchableOpacity, View } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 
 export default function SignIn() {
@@ -14,11 +15,27 @@ export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
-    console.log(email);
-    console.log(password);
-    setEmail("");
-    setPassword("");
+  const handleLogin = async ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => {
+    try {
+      if (!email || !password) {
+        Alert.alert("Error", "Email and password are required");
+        return;
+      }
+
+      await signIn({ email, password });
+
+      // Navigate to home after successful login
+      router.replace("/home");
+    } catch (error: any) {
+      console.error("Login failed:", error);
+      Alert.alert("Login Failed", error.message || "Something went wrong");
+    }
   };
 
   return (
@@ -54,11 +71,12 @@ export default function SignIn() {
         </View>
 
         {/* Sign In Button */}
-        <View className="">
-          <TouchableOpacity className="bg-blue-950 rounded-full p-4">
-            <Text className="text-white text-center font-bold">Sign In</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          onPress={() => handleLogin({ email, password })}
+          className="bg-blue-950 rounded-full p-4"
+        >
+          <Text className="text-white text-center font-bold">Sign In</Text>
+        </TouchableOpacity>
 
         {/* Splitter */}
         <View className="flex-row items-center">
